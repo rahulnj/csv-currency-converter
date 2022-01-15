@@ -22,21 +22,28 @@ const CurrencyConverter = () => {
 
     useEffect(() => {
         if (details.length > 0) {
-            console.log(details);
             async function fetchData() {
                 axios.get("https://cdn.moneyconvert.net/api/latest.json")
                     .then((result) => {
-                        console.log(result);
                         const ratesData = result.data.rates
-                        const keys = Object.keys(rates)
+                        const keys = Object.keys(ratesData)
                         setCurrencies(keys)
                         setRates(ratesData)
-
                     })
             }
             fetchData();
         }
     }, [details])
+
+    useEffect(() => {
+
+        if (toCurrency.length > 0) {
+            details.map((obj) => (
+                console.log(obj)
+            ))
+        }
+    }, [toCurrency])
+
 
     const handletheDrop = (e) => {
         e.preventDefault()
@@ -71,10 +78,10 @@ const CurrencyConverter = () => {
                 </div>
                 <div className='select-wrapper'>
                     <h4>Convert to:</h4>
-                    <select value={fromCurrency} onChange={(e) => setToCurrency(e.target.value)}>
+                    <select value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
                         {
-                            currencies.map((cur) => (
-                                <option key={cur} value={cur}> {cur}</option>
+                            currencies.map((currency) => (
+                                <option key={currency} value={currency}> {currency}</option>
                             ))
                         }
                     </select>
