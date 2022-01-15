@@ -14,7 +14,7 @@ text-decoration: underline;
     align-items: center;
 }
 
-/* .uploader{
+.uploader{
     height: 200px;
     width: 300px;
     margin: 20px 0;
@@ -22,7 +22,7 @@ text-decoration: underline;
     display: flex;
     justify-content: center;
     align-items: center;
-} */
+}
 
 .select-wrapper{
     padding: 10px 0;
