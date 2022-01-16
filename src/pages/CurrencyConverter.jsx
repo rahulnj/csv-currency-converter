@@ -20,9 +20,9 @@ const CurrencyConverter = () => {
     const [toCurrency, setToCurrency] = useState('')
     const [newData, setNewData] = useState()
 
-    useEffect(async () => {
+    useEffect(() => {
         if (fileContents) {
-            async function fetchExchangeRates() {
+            const fetchExchangeRates = async () => {
                 const { data } = await axios.get("https://cdn.moneyconvert.net/api/latest.json")
                 const rates = data.rates
                 const keys = Object.keys(rates)
@@ -51,7 +51,7 @@ const CurrencyConverter = () => {
             })
             setNewData(newData)
         }
-    }, [toCurrency])
+    }, [toCurrency, exchangeRates, fileContents])
 
     const newTitles = [
         { label: 'Name', key: "Name" },
