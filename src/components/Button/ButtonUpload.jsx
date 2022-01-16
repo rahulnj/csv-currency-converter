@@ -5,10 +5,10 @@ import './ButtonUpload.css'
 
 
 
-const Buttons = ({ handletheFile }) => {
+const Buttons = ({ handleFileInput }) => {
     return (
         <div className='uploader'>
-            <input type="file" accept=".csv" name="file" className='file-input__input' onChange={handletheFile} />
+            <input type="file" accept=".csv" name="file" className='file-input__input' onChange={handleFileInput} />
             <label className="file-input__label">
                 <svg
                     className="svg-inline--fa fa-upload fa-w-16"

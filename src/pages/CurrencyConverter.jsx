@@ -53,7 +53,7 @@ const CurrencyConverter = () => {
         }
     }, [toCurrency])
 
-    const headers = [
+    const newTitles = [
         { label: 'Name', key: "Name" },
         { label: 'Currency', key: "Currency" },
         { label: 'Amount', key: "Amount" },
@@ -63,13 +63,13 @@ const CurrencyConverter = () => {
         { label: 'Converted On', key: "Converted On" }
     ];
 
-    const csvReports = {
+    const newFileProperties = {
         filename: fileName,
-        headers: headers,
+        headers: newTitles,
         data: newData
     }
 
-    const handletheFile = (e) => {
+    const handleFileInput = (e) => {
         e.preventDefault()
         if (e.target.files[0].type === "application/vnd.ms-excel") {
             setFileName(e.target.files[0].name)
@@ -90,7 +90,7 @@ const CurrencyConverter = () => {
             <div className='main-container'>
                 <h2>csv currency converter</h2>
                 <div className="container-wrapper">
-                    <Buttons handletheFile={handletheFile} />
+                    <Buttons handleFileInput={handleFileInput} />
                     {fileContents &&
                         <div className='input-data'>
                             <FaFileUpload size={26} />
@@ -115,7 +115,7 @@ const CurrencyConverter = () => {
                         </div>
                     }
                     {
-                        newData && <CSVLink className='csv' {...csvReports} >Download</CSVLink>
+                        newData && <CSVLink className='csv' {...newFileProperties} >Download</CSVLink>
                     }
                 </div>
             </div >
