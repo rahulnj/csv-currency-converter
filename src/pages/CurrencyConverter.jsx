@@ -3,6 +3,7 @@ import axios from 'axios'
 import { CSVLink } from "react-csv";
 import { parse } from 'papaparse'
 import { toast } from 'react-toastify'
+import { FaFileUpload } from 'react-icons/fa'
 
 import Buttons from '../components/Button/ButtonUpload';
 import Toast from '../components/Toast/Toast';
@@ -92,33 +93,29 @@ const CurrencyConverter = () => {
                     <Buttons handletheFile={handletheFile} />
                     {fileContents &&
                         <div className='input-data'>
-                            <svg
-                                className="svg-inline--fa fa-upload fa-w-16"
-                                role="img"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 512 512"
-                            >
-                                <path
-                                    fill="currentColor"
-                                    d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
-                                ></path>
-                            </svg>
+                            <FaFileUpload size={26} />
                             <span className='fileName'>{fileName}</span>
 
                         </div>
                     }
-                    <div className='select-wrapper'>
-                        <h2>convert to:</h2>
-                        <select value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
-                            {
-                                currencies.map((currency) => (
-                                    <option key={currency} value={currency}> {currency}</option>
-                                ))
-                            }
-                        </select>
-                    </div>
                     {
-                        newData ? <CSVLink className='csv' {...csvReports} >Download</CSVLink> : ''
+                        fileContents &&
+                        <div className='select-wrapper'>
+                            <div className='convert-wrapper'>
+                                <p>convert to:</p>
+                            </div>
+                            <select value={toCurrency} onChange={(e) => setToCurrency(e.target.value)}>
+                                <option value="">-select-</option>
+                                {
+                                    currencies.map((currency) => (
+                                        <option key={currency} value={currency}> {currency}</option>
+                                    ))
+                                }
+                            </select>
+                        </div>
+                    }
+                    {
+                        newData && <CSVLink className='csv' {...csvReports} >Download</CSVLink>
                     }
                 </div>
             </div >
