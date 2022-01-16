@@ -5,6 +5,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+   border: lightgrey dashed 2px;
+}
+
+.showup{
+  border: green dashed 2px;
 }
 
 .file-input__input {

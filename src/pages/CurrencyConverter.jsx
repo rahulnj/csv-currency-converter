@@ -69,11 +69,10 @@ const CurrencyConverter = () => {
         data: newData
     }
 
-    const handleFileInput = (e) => {
-        e.preventDefault()
-        if (e.target.files[0].type === "application/vnd.ms-excel") {
-            setFileName(e.target.files[0].name)
-            Array.from(e.target.files)
+    const handleFileInput = (files) => {
+        if (files[0].type === "application/vnd.ms-excel") {
+            setFileName(files[0].name)
+            Array.from(files)
                 .filter((file) => file.type === "application/vnd.ms-excel")
                 .forEach(async (file) => {
                     const data = await file.text()
