@@ -1,0 +1,34 @@
+.uploader{
+    height: 200px;
+    width: 300px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-input__input {
+
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    cursor: pointer;
+  }
+  
+  .file-input__label {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 12px;
+    background-color: #4245a8;
+  
+  }
+  .file-input__label svg {
+    height: 16px;
+    margin-right: 4px;
+  }

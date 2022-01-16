@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&family=Outfit:wght@300&family=Pangolin&family=Poppins:wght@400;500&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+*{
+    font-family: 'Poppins', sans-serif;
+
+}
 
 
-.main-container h3{
+.main-container h2{
     display: flex;
     justify-content: center;
     text-transform: uppercase;
-text-decoration: underline;
+font-weight: 600;
 }
 
 .container-wrapper{
@@ -14,15 +19,6 @@ text-decoration: underline;
     align-items: center;
 }
 
-.uploader{
-    height: 200px;
-    width: 300px;
-    margin: 20px 0;
-    border:3px dashed black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .select-wrapper{
     padding: 10px 0;
@@ -37,3 +33,18 @@ select {
     outline: 0;
     cursor: pointer;
 }
+
+.csv {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    font-size: 14px;
+    padding: 10px 12px;
+    background-color: #4245a8;
+    text-decoration: none;
+  
+  }
