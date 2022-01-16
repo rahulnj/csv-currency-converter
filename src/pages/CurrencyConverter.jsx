@@ -36,11 +36,17 @@ const CurrencyConverter = () => {
     }, [details])
 
     useEffect(() => {
-
+        let inDollars
+        let inRequiredCurrency
         if (toCurrency.length > 0) {
-            details.map((obj) => (
-                console.log(obj)
-            ))
+            const newData = details.map((obj) => {
+                console.log(rates[obj.Currency], obj.Amount);
+                inDollars = parseInt(obj.Amount) / rates[obj.Currency]
+                console.log(inDollars);
+                inRequiredCurrency = inDollars * rates[toCurrency]
+                return { ...obj, "Converted Currency": toCurrency, "Converted Amount": inRequiredCurrency }
+            })
+            console.log(newData);
         }
     }, [toCurrency])
 
