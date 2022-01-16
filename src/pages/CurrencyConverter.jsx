@@ -1,82 +1,56 @@
 import React, { useState, useEffect } from 'react'
-
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-
-import './CurrencyConverter.css'
-import Buttons from '../components/Button/ButtonUpload';
-
+import axios from 'axios'
 import { CSVLink } from "react-csv";
 import { parse } from 'papaparse'
-import axios from 'axios'
+import { toast } from 'react-toastify'
+
+import Buttons from '../components/Button/ButtonUpload';
 import Toast from '../components/Toast/Toast';
-
-
+import 'react-toastify/dist/ReactToastify.css'
+import './CurrencyConverter.css'
 
 
 const CurrencyConverter = () => {
-    const [details, setDetails] = useState()
+
+    const [fileContents, setFileContents] = useState()
     const [fileName, setFileName] = useState('')
     const [currencies, setCurrencies] = useState([])
-    const [rates, setRates] = useState([])
+    const [exchangeRates, setExchangerates] = useState([])
     const [toCurrency, setToCurrency] = useState('')
     const [newData, setNewData] = useState()
 
-    useEffect(() => {
-        if (details) {
-            async function fetchData() {
-                axios.get("https://cdn.moneyconvert.net/api/latest.json")
-                    .then((result) => {
-                        const ratesData = result.data.rates
-                        const keys = Object.keys(ratesData)
-                        setCurrencies(keys)
-                        setRates(ratesData)
-                    })
+    useEffect(async () => {
+        if (fileContents) {
+            async function fetchExchangeRates() {
+                const { data } = await axios.get("https://cdn.moneyconvert.net/api/latest.json")
+                const rates = data.rates
+                const keys = Object.keys(rates)
+                setCurrencies(keys)
+                setExchangerates(rates)
             }
-            fetchData();
+            fetchExchangeRates();
         }
-    }, [details])
+    }, [fileContents])
 
     useEffect(() => {
-        let inDollars
-        let inRequiredCurrency
-        const current = new Date();
-        const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+        let amountInDollars
+        let amountInRequiredCurrency
+        const today = new Date();
+        const date = `${today.getDate()}/${today.getMonth() + 1}/${today.getFullYear()}`;
         if (toCurrency.length > 0) {
-            const newData = details.map((obj) => {
-                if (obj.Currency && obj.Amount) {
-                    inDollars = parseInt(obj.Amount) / rates[obj.Currency]
-                    inRequiredCurrency = inDollars * rates[toCurrency]
-                    return { ...obj, "Converted Currency": toCurrency, "Converted Amount": inRequiredCurrency, "Converted On": date }
+            const newData = fileContents.map((row) => {
+                if (row.Currency && row.Amount) {
+                    amountInDollars = parseInt(row.Amount) / exchangeRates[row.Currency]
+                    amountInRequiredCurrency = amountInDollars * exchangeRates[toCurrency]
+                    return { ...row, "Converted Currency": toCurrency, "Converted Amount": amountInRequiredCurrency, "Converted On": date }
                 } else {
-                    return { ...obj }
+                    return { ...row }
                 }
 
             })
             setNewData(newData)
-            console.log(newData);
         }
     }, [toCurrency])
-
-
-    const handletheFile = (e) => {
-        e.preventDefault()
-        console.log(e.target.files)
-        if (e.target.files[0].type === "application/vnd.ms-excel") {
-            setFileName(e.target.files[0].name)
-            Array.from(e.target.files)
-                .filter((file) => file.type === "application/vnd.ms-excel")
-                .forEach(async (file) => {
-                    const data = await file.text()
-                    const result = parse(data, { header: true })
-                    setDetails([...result.data])
-                })
-        } else {
-            toast.error("Invalid file format")
-        }
-    }
-    console.log(details);
-    console.log(newData);
 
     const headers = [
         { label: 'Name', key: "Name" },
@@ -94,13 +68,29 @@ const CurrencyConverter = () => {
         data: newData
     }
 
+    const handletheFile = (e) => {
+        e.preventDefault()
+        if (e.target.files[0].type === "application/vnd.ms-excel") {
+            setFileName(e.target.files[0].name)
+            Array.from(e.target.files)
+                .filter((file) => file.type === "application/vnd.ms-excel")
+                .forEach(async (file) => {
+                    const data = await file.text()
+                    const result = parse(data, { header: true })
+                    setFileContents([...result.data])
+                })
+        } else {
+            toast.error("Invalid file format")
+        }
+    }
+
     return (
         <>
             <div className='main-container'>
                 <h2>csv currency converter</h2>
                 <div className="container-wrapper">
                     <Buttons handletheFile={handletheFile} />
-                    {details &&
+                    {fileContents &&
                         <div className='input-data'>
                             <svg
                                 className="svg-inline--fa fa-upload fa-w-16"
