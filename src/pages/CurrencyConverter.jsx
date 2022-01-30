@@ -23,11 +23,15 @@ const CurrencyConverter = () => {
     useEffect(() => {
         if (fileContents) {
             const fetchExchangeRates = async () => {
-                const { data } = await axios.get("https://cdn.moneyconvert.net/api/latest.json")
-                const rates = data.rates
-                const keys = Object.keys(rates)
-                setCurrencies(keys)
-                setExchangerates(rates)
+                try {
+                    const { data } = await axios.get("https://cdn.moneyconvert.net/api/latest.json")
+                    const rates = data.rates
+                    const keys = Object.keys(rates)
+                    setCurrencies(keys)
+                    setExchangerates(rates)
+                } catch (error) {
+                    toast.error(error.message)
+                }
             }
             fetchExchangeRates();
         }
